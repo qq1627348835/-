@@ -34,6 +34,7 @@
           :key="item.id"
           :text="item.name"
           icon="plus"
+          @click="$emit('add-channel', item)"
         >
         </van-grid-item>
       </van-grid>
@@ -61,9 +62,10 @@ export default {
       const { data } = await getAllChannelsAPI()
       this.allChannels = data.data.channels
     },
-    handleMyChannel({ name }, index) {
+    handleMyChannel({ name, id }, index) {
       if (this.isEdit && name !== '推荐') {
-        console.log('123', name)
+        // console.log('123', name)
+        this.$emit('del-channel', id)
       } else {
         //
         this.$emit('change-active', index)
@@ -97,6 +99,9 @@ export default {
 // 我的频道
 .my-pannel {
   // 编辑按钮居中
+  :deep(.van-grid-item__text) {
+    margin-top: 0;
+  }
   .van-cell__value {
     display: flex;
     justify-content: flex-end;
@@ -128,6 +133,9 @@ export default {
 // 推荐频道
 .recommend-pannel {
   // 推荐频道加号样式
+  :deep(.van-grid-item__text) {
+    margin-top: 0;
+  }
   :deep(.van-grid-item__content) {
     flex-direction: row;
 
